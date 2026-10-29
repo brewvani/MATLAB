@@ -1,0 +1,30 @@
+%% LE4_1.m
+% Region 7 COVID-19 Data, 3rd Quarter 2021 (first 12 weeks)
+clc; clear; close all;
+
+%% Load the data from the .mat file
+load('R7-Q3(12weeks).mat')    % loads Cases, Recoveries, Deaths
+
+%% Week labels (dates)
+weeks = {'7/1-7/7', '7/8-7/14', '7/15-7/21', '7/22-7/28', ...
+    '7/29-8/4', '8/5-8/11', '8/12-8/18', '8/19-8/25', ...
+    '8/26-9/1', '9/2-9/8', '9/9-9/15', '9/16-9/22'};
+
+%% Put the data together (each column is one data set)
+data = [Cases' Recoveries' Deaths'];
+
+%% Create the bar plot
+figure
+bar(data)
+
+%% Format the plot
+xticks(1:12)
+xticklabels(weeks)
+xtickangle(45)
+xlabel('Weeks')
+ylabel('Count')
+title('Region 7 3rd Quarter 2021 CoViD Cases, Recoveries & Deaths')
+legend('Cases', 'Recoveries', 'Deaths', 'Location', 'northwest')
+
+%% Save the plot
+saveas(gcf, 'LE4_1.png')
