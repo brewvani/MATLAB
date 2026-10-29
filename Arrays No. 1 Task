@@ -1,5 +1,4 @@
-%% LE3-1.m
-% Polygon plot and area computation from vertex coordinates
+
 clc; clear; close all;
 
 %% Input: number of vertices (must be at least 7)
