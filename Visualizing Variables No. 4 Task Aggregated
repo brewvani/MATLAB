@@ -1,0 +1,39 @@
+%% LE4_4.m
+% Item 4: CoViD Cases, Recoveries and Deaths in the 3 Highly Urbanized
+% Cities of Region 7, Sept. 19 - Sept. 25, 2021 (3D pie plots)
+clc; clear; close all;
+
+%% Load the data from the .mat file
+load('HUC-CEB_19Sept-25Sept_.mat')   % loads CC, LLC, MC
+
+%% Prepare the data
+% Each variable is 7 x 3: rows = days, columns = Cases, Recoveries, Deaths
+CC = double(CC);
+LLC = double(LLC);
+MC = double(MC);
+
+%% Labels
+cities = {'Cebu City', 'Lapulapu City', 'Mandaue City'};
+dataNames = {'Cases', 'Recoveries', 'Deaths'};     % column 1, 2, 3
+fileNames = {'LE4_4a.png', 'LE4_4b.png', 'LE4_4c.png'};
+
+%% Parts a, b, c: one 3D pie plot for each data type
+for col = 1:3
+    % Total for the week (sum of the 7 days) for each city
+    total = [sum(CC(:,col)) sum(LLC(:,col)) sum(MC(:,col))];
+
+    figure
+    pie3(total)
+    colormap(parula(3))
+    legend(cities, 'Location', 'southoutside', 'Orientation', 'horizontal')
+    title(['Cebu HUCs CoVID ' dataNames{col} ' (9/19/2021-9/25/2021)'])
+
+    % Display the totals
+    fprintf('\n%s:\n', dataNames{col});
+    for i = 1:3
+        fprintf('  %s: %d\n', cities{i}, total(i));
+    end
+
+    % Save the plot
+    saveas(gcf, fileNames{col})
+end
