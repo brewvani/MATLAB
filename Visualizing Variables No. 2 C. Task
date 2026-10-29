@@ -1,0 +1,42 @@
+%% LE4_2c.m
+% Item 2c: Region 7 weekly COVID-19 Deaths (bar plot + trend line + average)
+clc; clear; close all;
+
+%% Load the data from the .mat file
+load('R7-Q3(12weeks).mat')    % loads Cases, Recoveries, Deaths
+
+%% Week labels (dates)
+weeks = {'7/1-7/7', '7/8-7/14', '7/15-7/21', '7/22-7/28', ...
+    '7/29-8/4', '8/5-8/11', '8/12-8/18', '8/19-8/25', ...
+    '8/26-9/1', '9/2-9/8', '9/9-9/15', '9/16-9/22'};
+
+%% Convert to double (Deaths is stored as a small integer type in the file)
+Deaths = double(Deaths);
+
+%% Compute the average number of deaths for the 12 weeks
+avgDeaths = mean(Deaths);
+avgLine = avgDeaths * ones(1, 12);    % same value for every week
+
+%% Plot
+figure
+bar(1:12, Deaths)                               % bar plot of weekly deaths
+hold on
+plot(1:12, Deaths, 'x-', 'LineWidth', 3)        % trend line (x-marker, width 3)
+plot(1:12, avgLine, '--k', 'LineWidth', 1)      % average (dashed, black, width 1)
+
+% Label the average line
+text(12.5, avgDeaths, sprintf('%.2f', avgDeaths), ...
+    'Color', 'k', 'HorizontalAlignment', 'right', 'VerticalAlignment', 'bottom')
+hold off
+
+%% Format the plot
+xticks(1:12)
+xticklabels(weeks)
+xtickangle(45)
+xlabel('Weeks')
+ylabel('Count')
+title('Region 7 3rd Quarter 2021 CoViD Deaths')
+legend('Weekly Deaths', 'Weekly Deaths Trend', 'Average Deaths', 'Location', 'northwest')
+
+%% Save the plot
+saveas(gcf, 'LE4_2c.png')
