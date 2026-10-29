@@ -4,7 +4,7 @@
 clc; clear; close all;
 
 %% Load the data from the .mat file
-load('HUC-CEB_19Sept-25Sept_.mat')   % loads CC, LLC, MC
+load('HUC-CEB(19Sept-25Sept).mat')   % loads CC, LLC, MC
 
 %% Prepare the data
 % Each variable is 7 x 3: rows = days, columns = Cases, Recoveries, Deaths
