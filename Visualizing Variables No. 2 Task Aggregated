@@ -1,0 +1,91 @@
+%% LE4_2.m
+% Item 2: Region 7 3rd Quarter 2021 CoViD Cases, Recoveries and Deaths
+% Each part: bar plot + trend line (x-marker, width 3) + average line (width 1)
+clc; clear; close all;
+
+%% Load the data from the .mat file
+load('R7-Q3(12weeks).mat')    % loads Cases, Recoveries, Deaths
+
+% Convert to double (some variables are stored as small integer types)
+Cases = double(Cases);
+Recoveries = double(Recoveries);
+Deaths = double(Deaths);
+
+%% Week labels (dates)
+weeks = {'7/1-7/7', '7/8-7/14', '7/15-7/21', '7/22-7/28', ...
+    '7/29-8/4', '8/5-8/11', '8/12-8/18', '8/19-8/25', ...
+    '8/26-9/1', '9/2-9/8', '9/9-9/15', '9/16-9/22'};
+
+%% Part a: CoViD Cases (average line: dashed, red, width 1)
+avgCases = mean(Cases);
+avgLine = avgCases * ones(1, 12);
+
+figure
+bar(1:12, Cases)
+hold on
+plot(1:12, Cases, 'x-', 'LineWidth', 3)
+plot(1:12, avgLine, '--r', 'LineWidth', 1)
+text(12.5, avgCases, sprintf('%.2f', avgCases), ...
+    'Color', 'r', 'HorizontalAlignment', 'right', 'VerticalAlignment', 'bottom')
+hold off
+
+xticks(1:12)
+xticklabels(weeks)
+xtickangle(45)
+xlabel('Weeks')
+ylabel('Count')
+title('Region 7 3rd Quarter 2021 CoViD Cases')
+legend('Weekly Cases', 'Weekly Cases Trend', 'Average Cases', 'Location', 'south')
+
+saveas(gcf, 'LE4_2a.png')
+
+%% Part b: CoViD Recoveries (average line: dashed, green, width 1)
+avgRec = mean(Recoveries);
+avgLine = avgRec * ones(1, 12);
+
+figure
+bar(1:12, Recoveries)
+hold on
+plot(1:12, Recoveries, 'x-', 'LineWidth', 3)
+plot(1:12, avgLine, '--g', 'LineWidth', 1)
+text(12.5, avgRec, sprintf('%.2f', avgRec), ...
+    'Color', 'g', 'HorizontalAlignment', 'right', 'VerticalAlignment', 'bottom')
+hold off
+
+xticks(1:12)
+xticklabels(weeks)
+xtickangle(45)
+xlabel('Weeks')
+ylabel('Count')
+title('Region 7 3rd Quarter 2021 CoViD Recoveries')
+legend('Weekly Recoveries', 'Weekly Recoveries Trend', 'Average Recoveries', 'Location', 'south')
+
+saveas(gcf, 'LE4_2b.png')
+
+%% Part c: CoViD Deaths (average line: dashed, black, width 1)
+avgDeaths = mean(Deaths);
+avgLine = avgDeaths * ones(1, 12);
+
+figure
+bar(1:12, Deaths)
+hold on
+plot(1:12, Deaths, 'x-', 'LineWidth', 3)
+plot(1:12, avgLine, '--k', 'LineWidth', 1)
+text(12.5, avgDeaths, sprintf('%.2f', avgDeaths), ...
+    'Color', 'k', 'HorizontalAlignment', 'right', 'VerticalAlignment', 'bottom')
+hold off
+
+xticks(1:12)
+xticklabels(weeks)
+xtickangle(45)
+xlabel('Weeks')
+ylabel('Count')
+title('Region 7 3rd Quarter 2021 CoViD Deaths')
+legend('Weekly Deaths', 'Weekly Deaths Trend', 'Average Deaths', 'Location', 'northwest')
+
+saveas(gcf, 'LE4_2c.png')
+
+%% Display the averages
+fprintf('Average Cases      = %.2f\n', avgCases);
+fprintf('Average Recoveries = %.2f\n', avgRec);
+fprintf('Average Deaths     = %.2f\n', avgDeaths);
