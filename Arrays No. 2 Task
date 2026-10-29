@@ -1,0 +1,76 @@
+clc; clear; close all;
+
+%% Input: number of vertices (at least 3)
+n = input('Enter the number of vertices (at least 3): ');
+while n < 3
+    n = input('A polygon needs at least 3 vertices. Try again: ');
+end
+
+% Preallocate arrays for the coordinates
+x = zeros(1, n);
+y = zeros(1, n);
+
+% Get the coordinates of each vertex (enter them in order around the shape)
+for i = 1:n
+    fprintf('Vertex %d\n', i);
+    x(i) = input('  x = ');
+    y(i) = input('  y = ');
+end
+
+% Close the polygon by repeating the first vertex at the end
+xClosed = [x, x(1)];
+yClosed = [y, y(1)];
+
+%% Part a: Compute the centroid
+% Step 1: Area A = 1/2 * sum( x(i)*y(i+1) - x(i+1)*y(i) )
+sumA = 0;
+for i = 1:n
+    sumA = sumA + (xClosed(i)*yClosed(i+1) - xClosed(i+1)*yClosed(i));
+end
+A = sumA / 2;     % signed area (keeps the sign for the centroid formula)
+
+% Step 2: Centroid sums
+sumX = 0;
+sumY = 0;
+for i = 1:n
+    common = xClosed(i)*yClosed(i+1) - xClosed(i+1)*yClosed(i);
+    sumX = sumX + (xClosed(i) + xClosed(i+1)) * common;
+    sumY = sumY + (yClosed(i) + yClosed(i+1)) * common;
+end
+
+xbar = sumX / (6*A);
+ybar = sumY / (6*A);
+
+%% Part b: Plot the polygon with the centroid
+figure;
+fill(x, y, 'c', 'FaceAlpha', 0.3);                % shaded interior
+hold on;
+plot(xClosed, yClosed, '-b', 'LineWidth', 2);     % edges
+plot(x, y, 'ro', 'MarkerFaceColor', 'r');         % vertices
+plot(xbar, ybar, 'kp', 'MarkerSize', 14, 'MarkerFaceColor', 'y');  % centroid
+
+% Label each vertex with its coordinates
+for i = 1:n
+    text(x(i) + 0.1, y(i) + 0.1, sprintf('(%g, %g)', x(i), y(i)));
+end
+
+% Label the centroid
+text(xbar + 0.2, ybar - 0.3, sprintf('Centroid (%.2f, %.2f)', xbar, ybar), ...
+    'FontWeight', 'bold');
+
+grid on;
+axis equal;
+xlabel('x-axis');
+ylabel('y-axis');
+title(sprintf('Polygon with %d Vertices and its Centroid', n));
+legend('Polygon', 'Edges', 'Vertices', 'Centroid', 'Location', 'best');
+hold off;
+
+%% Display the results
+fprintf('\nVertices (x, y):\n');
+disp([x' y']);
+fprintf('Area = %.2f square units\n', abs(A));
+fprintf('Centroid = (%.2f, %.2f)\n', xbar, ybar);
+
+%% Save the plot as LE3-2.png
+saveas(gcf, 'LE3-2.png');
